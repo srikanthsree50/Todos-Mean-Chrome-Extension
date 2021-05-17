@@ -11,6 +11,8 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+
 mongoose.connect("mongodb+srv://Todos:Todos@clusterone.plhk1.mongodb.net/Todos?retryWrites=true&w=majority", {useNewUrlParser: true,useUnifiedTopology:true});
 mongoose.set('useFindAndModify', false);
 const db = mongoose.connection;
@@ -49,6 +51,18 @@ app.set('view engine', 'pug')
 app.set("views", path.join(__dirname,"views"))
 
 
+app.use((req, res,next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PATCH, PUT, DELETE, OPTIONS"
+    );
+    next();
+  });
 
 app.get("/", (req,res)=>{
     res.status("200").sendFile(path.join(__dirname,"views", "index.html"))
